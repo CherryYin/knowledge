@@ -1,0 +1,540 @@
+{
+  "HealthResponse": {
+    "properties": {
+      "status": {
+        "default": "ok",
+        "title": "Status",
+        "type": "string"
+      }
+    },
+    "title": "HealthResponse",
+    "type": "object"
+  },
+  "FileDeleteRequest": {
+    "properties": {
+      "doc_id": {
+        "minLength": 1,
+        "title": "Doc Id",
+        "type": "string"
+      }
+    },
+    "required": [
+      "doc_id"
+    ],
+    "title": "FileDeleteRequest",
+    "type": "object"
+  },
+  "FileUploadResultItem": {
+    "properties": {
+      "filename": {
+        "title": "Filename",
+        "type": "string"
+      },
+      "doc_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Doc Id"
+      },
+      "status": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Status"
+      },
+      "blob_url": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Blob Url"
+      },
+      "blob_key": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Blob Key"
+      },
+      "toc_nodes": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Toc Nodes"
+      },
+      "toc_depth": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Toc Depth"
+      },
+      "total_chunks": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Total Chunks"
+      },
+      "chunking_mode": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Chunking Mode"
+      },
+      "toc_outline": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Toc Outline"
+      }
+    },
+    "required": [
+      "filename"
+    ],
+    "title": "FileUploadResultItem",
+    "type": "object"
+  },
+  "FileUploadResponse": {
+    "$defs": {
+      "FileUploadResultItem": {
+        "properties": {
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "doc_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Doc Id"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "blob_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Blob Url"
+          },
+          "blob_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Blob Key"
+          },
+          "toc_nodes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Toc Nodes"
+          },
+          "toc_depth": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Toc Depth"
+          },
+          "total_chunks": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Total Chunks"
+          },
+          "chunking_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Chunking Mode"
+          },
+          "toc_outline": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Toc Outline"
+          }
+        },
+        "required": [
+          "filename"
+        ],
+        "title": "FileUploadResultItem",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "count": {
+        "title": "Count",
+        "type": "integer"
+      },
+      "results": {
+        "items": {
+          "$ref": "#/$defs/FileUploadResultItem"
+        },
+        "title": "Results",
+        "type": "array"
+      }
+    },
+    "required": [
+      "count"
+    ],
+    "title": "FileUploadResponse",
+    "type": "object"
+  },
+  "FileDeleteResponse": {
+    "properties": {
+      "status": {
+        "title": "Status",
+        "type": "string"
+      },
+      "doc_id": {
+        "title": "Doc Id",
+        "type": "string"
+      }
+    },
+    "required": [
+      "status",
+      "doc_id"
+    ],
+    "title": "FileDeleteResponse",
+    "type": "object"
+  },
+  "TextUpsertRequest": {
+    "properties": {
+      "text": {
+        "title": "Text",
+        "type": "string"
+      },
+      "sourcefile": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": "text.txt",
+        "title": "Sourcefile"
+      },
+      "category": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Category"
+      },
+      "url": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Url"
+      }
+    },
+    "required": [
+      "text"
+    ],
+    "title": "TextUpsertRequest",
+    "type": "object"
+  },
+  "TextUpsertResponse": {
+    "properties": {
+      "status": {
+        "title": "Status",
+        "type": "string"
+      },
+      "doc_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Doc Id"
+      },
+      "total_chunks": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Total Chunks"
+      }
+    },
+    "required": [
+      "status"
+    ],
+    "title": "TextUpsertResponse",
+    "type": "object"
+  },
+  "TextDeleteResponse": {
+    "properties": {
+      "status": {
+        "title": "Status",
+        "type": "string"
+      },
+      "doc_id": {
+        "title": "Doc Id",
+        "type": "string"
+      }
+    },
+    "required": [
+      "status",
+      "doc_id"
+    ],
+    "title": "TextDeleteResponse",
+    "type": "object"
+  },
+  "FAQUpsertRequest": {
+    "properties": {
+      "id": {
+        "title": "Id",
+        "type": "integer"
+      },
+      "question": {
+        "title": "Question",
+        "type": "string"
+      },
+      "answer": {
+        "title": "Answer",
+        "type": "string"
+      },
+      "markets": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": "",
+        "title": "Markets"
+      }
+    },
+    "required": [
+      "id",
+      "question",
+      "answer"
+    ],
+    "title": "FAQUpsertRequest",
+    "type": "object"
+  },
+  "FAQReindexRequest": {
+    "$defs": {
+      "FAQUpsertRequest": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "question": {
+            "title": "Question",
+            "type": "string"
+          },
+          "answer": {
+            "title": "Answer",
+            "type": "string"
+          },
+          "markets": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "",
+            "title": "Markets"
+          }
+        },
+        "required": [
+          "id",
+          "question",
+          "answer"
+        ],
+        "title": "FAQUpsertRequest",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "items": {
+        "items": {
+          "$ref": "#/$defs/FAQUpsertRequest"
+        },
+        "title": "Items",
+        "type": "array"
+      }
+    },
+    "required": [
+      "items"
+    ],
+    "title": "FAQReindexRequest",
+    "type": "object"
+  },
+  "FAQIdResponse": {
+    "properties": {
+      "id": {
+        "title": "Id",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id"
+    ],
+    "title": "FAQIdResponse",
+    "type": "object"
+  },
+  "FAQReindexResponse": {
+    "properties": {
+      "count": {
+        "title": "Count",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "count"
+    ],
+    "title": "FAQReindexResponse",
+    "type": "object"
+  },
+  "ErrorResponse": {
+    "properties": {
+      "detail": {
+        "title": "Detail",
+        "type": "string"
+      }
+    },
+    "required": [
+      "detail"
+    ],
+    "title": "ErrorResponse",
+    "type": "object"
+  }
+}

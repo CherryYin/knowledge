@@ -1,0 +1,99 @@
+# =============================================
+# Knowledgebase - Docker Compose
+# =============================================
+# 一键启动完整服务栈 (应用 + PostgreSQL + pgvector)
+
+services:
+  # ── PostgreSQL + pgvector ──────────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: knowledge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: knowledge
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/create_postgres_tables.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d knowledge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Knowledgebase 应用 ─────────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: knowledge-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # 数据库连接 (Docker 网络内)
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/knowledge
+      
+      # Embedding 服务 (需外部提供)
+      EMBEDDING_BASE_URL: http://host.docker.internal:8100
+      EMBEDDING_MODEL: Qwen/Qwen2.5-VL-Embedding
+      
+      # FAQ 存储
+      FAQ_DB_PATH: /app/data/faq.db
+      
+      # 服务配置
+      HOST: 0.0.0.0
+      PORT: 8000
+      
+      # 可选：本地 Embedding (需要 GPU)
+      # USE_LOCAL_EMBEDDING: "false"
+      
+      # 可选：TLS 配置
+      # SSL_VERIFY: "true"
+      
+      # 可选：CORS
+      # ALLOW_ORIGINS: "https://example.com"
+    volumes:
+      - app_data:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    extra_hosts:
+      # 允许访问宿主机上的服务 (如 vLLM)
+      - "host.docker.internal:host-gateway"
+
+  # ── (可选) vLLM Embedding 服务 ──────────────────────────────────────────────
+  # 如需本地运行 Embedding，取消以下注释并配置 GPU
+  # vllm:
+  #   image: vllm/vllm-openai:latest
+  #   container_name: knowledge-vllm
+  #   runtime: nvidia
+  #   ports:
+  #     - "8100:8000"
+  #   environment:
+  #     - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN:-}
+  #   volumes:
+  #     - vllm_cache:/root/.cache/huggingface
+  #   command: >
+  #     --model Qwen/Qwen2.5-VL-Embedding
+  #     --port 8000
+  #     --max-model-len 8192
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+# ── 数据卷 ────────────────────────────────────────────────────────────────────
+volumes:
+  postgres_data:
+    driver: local
+  app_data:
+    driver: local
+  # vllm_cache:
+  #   driver: local
